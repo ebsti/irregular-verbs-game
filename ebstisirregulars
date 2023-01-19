@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Irregular Verb Learning</title>
+    <style>
+      #infinitive {
+        background-color: green;
+        width: 200px;
+        height: 50px;
+        font-size: 20px;
+      }
+      #pastTense {
+        background-color: red;
+        width: 200px;
+        height: 50px;
+        font-size: 20px;
+      }
+      #pastParticiple {
+        background-color: purple;
+        width: 200px;
+        height: 50px;
+        font-size: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Irregular Verb Learning</h1>
+    <p>Welcome to Christoph Ebners learning website!</p>
+    <p id="germanWord"></p>
+    <form>
+      <label for="infinitive">Infinitive: </label>
+      <input type="text" id="infinitive">
+      <br>
+      <label for="pastTense">Past Tense: </label>
+      <input type="text" id="pastTense">
+      <br>
+      <label for="pastParticiple">Past Participle: </label>
+      <input type="text" id="pastParticiple" onkeydown="if (event.keyCode === 13) { checkAnswer() }">
+    </form>
+    <p id="result"></p>
+    <script>
+      // an array of irregular verbs to learn
+      var irregularVerbs = [
+        {german: "sein", infinitive: "be", pastTense: "was/were", pastParticiple: "been"},
+        {german: "haben", infinitive: "have", pastTense: "had", pastParticiple: "had"},
+        {german: "werden", infinitive: "become", pastTense: "became", pastParticiple: "become"},
+        {german: "kommen", infinitive: "come", pastTense: "came", pastParticiple: "come"},
+        {german: "tun", infinitive: "do", pastTense: "did", pastParticiple: "done"},
+        {german: "sagen", infinitive: "say", pastTense: "said", pastParticiple: "said"},
+        {german: "machen", infinitive: "make", pastTense: "made", pastParticiple: "made"},
+        {german: "geben", infinitive: "give", pastTense: "gave", pastParticiple: "given"},
+        {german: "nehmen", infinitive: "take", pastTense: "took", pastParticiple: "taken"},
+        {german: "kriegen", infinitive: "get", pastTense: "got", pastParticiple: "gotten"},
+        {german: "laufen", infinitive: "run", pastTense: "ran", pastParticiple: "run"},
+        {german: "legen", infinitive: "lay", pastTense: "laid", pastParticiple: "laid"},
+        {german: "führen", infinitive: "lead", pastTense: "led", pastParticiple: "led"},
+        {german: "treffen", infinitive: "meet", pastTense: "met", pastParticiple: "met"},
+        {german: "zahlen", infinitive: "pay", pastTense: "paid", pastParticiple: "paid"},
+        {german: "stehlen", infinitive: "steal", pastTense: "stole", pastParticiple: "stolen"},
+        {german: "wachsen", infinitive: "grow", pastTense: "grew", pastParticiple: "grown"},
+        {german: "werfen", infinitive: "throw", pastTense: "threw", pastParticiple: "thrown"},
+        {german: "tragen", infinitive: "wear", pastTense: "wore", pastParticiple: "worn"},
+        {german: "gewinnen", infinitive: "win", pastTense: "won", pastParticiple: "won"},
+        {german: "schreiben", infinitive: "write", pastTense: "wrote", pastParticiple: "written"},
+        {german: "ziehen", infinitive: "draw", pastTense: "drew", pastParticiple: "drawn"},
+        {german: "lesen", infinitive: "read", pastTense: "read", pastParticiple: "read"},
+        {german: "essen", infinitive: "eat", pastTense: "ate", pastParticiple: "eaten"},
+        {german: "brechen", infinitive: "break", pastTense: "broke", pastParticiple: "broken"},
+        {german: "fangen", infinitive: "catch", pastTense: "caught", pastParticiple: "caught"},
+        {german: "wählen", infinitive: "choose", pastTense: "chose", pastParticiple: "chosen"},
+        {german: "kommen", infinitive: "come", pastTense: "came", pastParticiple: "come"},
+        {german: "kosten", infinitive: "cost", pastTense: "cost", pastParticiple: "cost"},
+        {german: "schneiden", infinitive: "cut", pastTense: "cut", pastParticiple: "cut"},
+        {german: "tun", infinitive: "do", pastTense: "did", pastParticiple: "done"},
+        {german: "essen", infinitive: "eat", pastTense: "ate", pastParticiple: "eaten"},
+        {german: "fallen", infinitive: "fall", pastTense: "fell", pastParticiple: "fallen"},
+        {german: "fühlen", infinitive: "feel", pastTense: "felt", pastParticiple: "felt"},
+        {german: "kämpfen", infinitive: "fight", pastTense: "fought", pastParticiple: "fought"},
+        {german: "finden", infinitive: "find", pastTense: "found", pastParticiple: "found"},
+        {german: "fliegen", infinitive: "fly", pastTense: "flew", pastParticiple: "flown"},
+        {german: "vergessen", infinitive: "forget", pastTense: "forgot", pastParticiple: "forgotten"},
+        {german: "verzeihen", infinitive: "forgive", pastTense: "forgave", pastParticiple: "forgiven"},
+        {german: "bekommen", infinitive: "get", pastTense: "got", pastParticiple: "gotten"},
+        {german: "geben", infinitive: "give", pastTense: "gave", pastParticiple: "given"},
+        {german: "gehen", infinitive: "go", pastTense: "went", pastParticiple: "gone"},
+        {german: "wachsen", infinitive: "grow", pastTense: "grew", pastParticiple: "grown"},
+        {german: "haben", infinitive: "have", pastTense: "had", pastParticiple: "had"},
+        {german: "hören", infinitive: "hear", pastTense: "heard", pastParticiple: "heard"},
+        {german: "verstecken", infinitive: "hide", pastTense: "hid", pastParticiple: "hidden"},
+        {german: "halten", infinitive: "hold", pastTense: "held", pastParticiple: "held"},
+        {german: "wissen", infinitive: "know", pastTense: "knew", pastParticiple: "known"},
+        {german: "legen", infinitive: "lay", pastTense: "laid", pastParticiple: "laid"},
+        {german: "führen", infinitive: "lead", pastTense: "led", pastParticiple: "led"},
+        {german: "lernen", infinitive: "learn", pastTense: "learned", pastParticiple: "learned"},
+        {german: "verlassen", infinitive: "leave", pastTense: "left", pastParticiple: "left"},
+        {german: "leihen", infinitive: "lend", pastTense: "lent", pastParticiple: "lent"},
+        {german: "lassen", infinitive: "let", pastTense: "let", pastParticiple: "let"},
+        {german: "liegen", infinitive: "lie", pastTense: "lay", pastParticiple: "lain"},
+        {german: "leuchten", infinitive: "light", pastTense: "lit", pastParticiple: "lit"},
+        {german: "verlieren", infinitive: "lose", pastTense: "lost", pastParticiple: "lost"},
+        {german: "machen", infinitive: "make", pastTense: "made", pastParticiple: "made"},
+        {german: "bedeuten", infinitive: "mean", pastTense: "meant", pastParticiple: "meant"},
+        {german: "treffen", infinitive: "meet", pastTense: "met", pastParticiple: "met"},
+        {german: "bezahlen", infinitive: "pay", pastTense: "paid", pastParticiple: "paid"},
+        {german: "lesen", infinitive: "read", pastTense: "read", pastParticiple: "read"},
+        {german: "reiten", infinitive: "ride", pastTense: "rode", pastParticiple: "ridden"},
+        {german: "läuten", infinitive: "ring", pastTense: "rang", pastParticiple: "rung"},
+        {german: "steigen", infinitive: "rise", pastTense: "rose", pastParticiple: "risen"},
+        {german: "laufen", infinitive: "run", pastTense: "ran", pastParticiple: "run"},
+        {german: "sagen", infinitive: "say", pastTense: "said", pastParticiple: "said"},
+        {german: "sehen", infinitive: "see", pastTense: "saw", pastParticiple: "seen"},
+        {german: "verkaufen", infinitive: "sell", pastTense: "sold", pastParticiple: "sold"},
+        {german: "senden", infinitive: "send", pastTense: "sent", pastParticiple: "sent"},
+        {german: "setzen", infinitive: "set", pastTense: "set", pastParticiple: "set"},
+        {german: "schneiden", infinitive: "cut", pastTense: "cut", pastParticiple: "cut"},
+        {german: "zeigen", infinitive: "show", pastTense: "showed", pastParticiple: "shown"},
+        {german: "singen", infinitive: "sing", pastTense: "sang", pastParticiple: "sung"},
+        {german: "sitzen", infinitive: "sit", pastTense: "sat", pastParticiple: "sat"},
+        {german: "schlafen", infinitive: "sleep", pastTense: "slept", pastParticiple: "slept"},
+        {german: "sprechen", infinitive: "speak", pastTense: "spoke", pastParticiple: "spoken"},
+        {german: "stehlen", infinitive: "steal", pastTense: "stole", pastParticiple: "stolen"},
+        {german: "stehen", infinitive: "stand", pastTense: "stood", pastParticiple: "stood"},
+        {german: "steigen", infinitive: "stick", pastTense: "stuck", pastParticiple: "stuck"},
+        {german: "stechen", infinitive: "stick", pastTense: "stuck", pastParticiple: "stuck"},
+        {german: "stoßen", infinitive: "strike", pastTense: "struck", pastParticiple: "struck"},
+        {german: "sagen", infinitive: "say", pastTense: "said", pastParticiple: "said"},
+        {german: "nehmen", infinitive: "take", pastTense: "took", pastParticiple: "taken"},
+        {german: "lehren", infinitive: "teach", pastTense: "taught", pastParticiple: "taught"},
+        {german: "ziehen", infinitive: "tear", pastTense: "tore", pastParticiple: "torn"},
+        {german: "erzählen", infinitive: "tell", pastTense: "told", pastParticiple: "told"},
+        {german: "denken", infinitive: "think", pastTense: "thought", pastParticiple: "thought"},
+        {german: "werfen", infinitive: "throw", pastTense: "threw", pastParticiple: "thrown"},
+        {german: "verstehen", infinitive: "understand", pastTense: "understood", pastParticiple: "understood"},
+        {german: "aufstehen", infinitive: "wake", pastTense: "woke", pastParticiple: "woken"},
+        {german: "tragen", infinitive: "wear", pastTense: "wore", pastParticiple: "worn"},
+        {german: "gewinnen", infinitive: "win", pastTense: "won", pastParticiple: "won"},
+        {german: "schreiben", infinitive: "write", pastTense: "wrote", pastParticiple: "written"}
+      ];
+      // index of the current verb
+      var currentVerb = 0;
+
+      // display the German word of the current verb
+      document.getElementById("germanWord").innerHTML = irregularVerbs[currentVerb].german;
+
+      // check if the user's answer is correct
+      function checkAnswer() {
+        var infinitive = document.getElementById("infinitive").value;
+        var pastTense = document.getElementById("pastTense").value;
+        var pastParticiple = document.getElementById("pastParticiple").value;
+        if (infinitive === irregularVerbs[currentVerb].infinitive && pastTense === irregularVerbs[currentVerb].pastTense && pastParticiple === irregularVerbs[currentVerb].pastParticiple) {
+          document.getElementById("result").innerHTML = "Well done!";
+          currentVerb++;
+          if (currentVerb >= irregularVerbs.length) {
+            currentVerb = 0;
+            document.getElementById("result").innerHTML = "You have finished all the verbs!";
+          }
+          else {
+            document.getElementById("germanWord").innerHTML = irregularVerbs[currentVerb].german;
+            document.getElementById("infinitive").value = "";
+            document.getElementById("pastTense").value = "";
+            document.getElementById("pastParticiple").value = "";
+          }
+        }
+        else {
+          document.getElementById("result").innerHTML = "Incorrect, the right answer is: " + irregularVerbs[currentVerb].infinitive + " " + irregularVerbs[currentVerb].pastTense + " " + irregularVerbs[currentVerb].pastParticiple;
+        }
+      }
+    </script>
+  </body>
+</html>
